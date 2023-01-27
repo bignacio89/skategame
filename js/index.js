@@ -1,1 +1,1 @@
-window.onload = () => { skateGame.init() } 
+skateGame.init() 

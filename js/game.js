@@ -12,22 +12,20 @@ const skateGame = {
     init() {
         this.setContext()
         this.setDimensions()
-        this.setEventListeners()
-        this.createSkater()
-        this.start()
+
     },
+
 
     setContext() {
         this.canvasTag = document.querySelector('canvas')
         this.ctx = this.canvasTag.getContext('2d')
-
-
+        console.log("hola")
     },
 
     setDimensions() {
         this.canvasSize = {
-            w: 500,
-            h: 700,
+            w: window.innerWidth,
+            h: window.innerHeight
         }
 
         this.canvasTag.setAttribute('width', this.canvasSize.w)
@@ -37,8 +35,9 @@ const skateGame = {
 
 
 
-
-
-
 }
+
+
+
+
 

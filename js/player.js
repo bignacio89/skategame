@@ -13,13 +13,15 @@ class Player {
             x: 50,
             y: 600
         }
-        this.playerPosJump = this.playerPosY
+        this.playerPositionJump = this.playerPosition.y
+        this.velocity = 1
+        this.gravity = 0.4
 
 
         this.keys = keys
 
         this.init()
-
+        this.setListeners()
     }
 
     init() {
@@ -27,47 +29,37 @@ class Player {
         this.playerInstance.src = './img/skater.png'
     }
 
-
-
-
-    move() {
-        this.playerPosX += 10
-    }
-
     drawSkater() {
         this.move()
         this.ctx.drawImage(this.playerInstance, this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
     }
+    move() {
+        if (this.playerPosition.y < this.playerPositionJump) {
+            this.playerPosition.y += this.velocity;
+            this.velocity += this.gravity;
+        } else {
+            this.playerPosition.y = this.playerPositionJump;
+            this.velocity = 1;
+        }
+    }
 
-    // move() {
-    //     // if (this.playerPosY < this.playerPosJump) {
-    //     //     this.playerPosY += this.velocityY;
-    //     //     this.velocityY += this.gravity;
-    //     // } else {
-    //     //     this.playerPosY = this.playerPosJump;
-    //     //     this.velocityY = 1;
-    //     // }
-    // }
+    setListeners() {
+        document.addEventListener("keydown", e => {
+            switch (e.code) {
+                case this.keys.TOP:
+                    if (this.playerPosition.y >= this.playerPositionJump) {
+                        this.jump()
+                    }
+                    break
+            }
+        })
+    }
 
-    // setListeners() {
+    jump() {
+        this.playerPosition.y -= 100;
+        this.velocity -= 8;
+    }
 
-    //     document.addEventListener("keydown", e => {
-    //         switch (e) {
-    //             case this.keys.TOP;
-    //                 if (this.playerPosY >= this.playerPosJump) {
-    //                     this.jump()
-    //                 }
-    //                 break
-    //         }
-    //     });
-    // }
-
-    // jump() {
-    //     this.playerPosY -= 40;
-    //     this.velocityY -= 8;
-
-
-    // }
 
 }
 

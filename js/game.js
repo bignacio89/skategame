@@ -8,6 +8,7 @@ const skateGame = {
     ctx: undefined,
     playerInstance: undefined,
     canvasSize: { w: undefined, h: undefined },
+    FPS: 60,
     playerPosition: {
         x: 200,
         y: 600
@@ -16,11 +17,11 @@ const skateGame = {
         w: 50,
         h: 50
     },
-
+    obstacles: [],
     keys: {
         TOP: 'Space',
     },
-
+    framesCounter: 0,
     framesIndex: 0,
     background: undefined,
     players: [],
@@ -55,11 +56,16 @@ const skateGame = {
     start() {
         this.reset()
 
-        setInterval(() => {
+        this.interval = setInterval(() => {
+
+            this.framesCounter > 5000 ? this.framesCounter = 0 : this.framesCounter++
             this.clearAll()
             this.drawAll()
 
-        }, 10)
+            this.generateObstacles()
+            this.clearObstacles()
+
+        }, 1000 / this.FPS)
     },
 
     reset() {
@@ -67,39 +73,32 @@ const skateGame = {
         this.players.push(
             new Player(this.ctx, this.canvasSize, 50, 50, this.keys)
         )
+        this.obstacles = []
 
     },
 
     drawAll() {
         this.background.drawBackground()
         this.players.forEach(elm => elm.drawSkater())
+        this.obstacles.forEach(obs => obs.drawImage())
     },
 
     clearAll() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
     },
 
-    // generateObstacles() {
-    //     if (this.framesCounter % 20 === 0) {
-    //         this.obstacles.push(new Obstacle(this.ctx, this.width, this.player.posY0, this.player.height))
-    //     }
-    // },
+    generateObstacles() {
+        if (this.framesCounter % 60 === 0) {
+            this.obstacles.push(
+                new Obstacle(this.ctx, this.canvasSize.w)
+            )
+        }
 
-    // clearObstacles() {
-    //     this.obstacles = this.obstacles.filter(obs => obs.posX >= 0)
-    // },
+    },
 
-    // isCollision() {
-    //     return this.obstacles.some(obs => {
-    //         return (
-    //             this.player.posX + this.player.width >= obs.posX &&
-    //             this.player.posY + this.player.height >= obs.posY &&
-    //             this.player.posX <= obs.posX + obs.width
-    //         )
-    //     })
-    // },
-
-
+    clearObstacles() {
+        this.obstacles = this.obstacles.filter(obs => obs.posX >= 0)
+    },
 
 }
 

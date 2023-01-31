@@ -3,7 +3,6 @@ class Player {
 
         this.ctx = ctx
         this.canvasSize = canvasSize
-
         this.playerSize = {
             w: playerWidth,
             h: playerHeight
@@ -11,56 +10,66 @@ class Player {
 
         this.playerPosition = {
             x: 400,
-            y: 600 + 10
+            y: this.canvasSize.h
         }
-        this.playerPositionJump = this.playerPosition.y
-        this.velocity = 1
+        this.velocity = 0
         this.gravity = 0.4
+        this.canJump = true
+        this.floor = this.canvasSize.h - this.playerSize.h
 
 
         this.keys = keys
 
-        this.init()
         this.setListeners()
     }
 
-    init() {
-        this.playerInstance = new Image()
-        this.playerInstance.src = './img/skater.png'
-    }
 
     drawSkater() {
         this.move()
         this.ctx.fillStyle = "red"
         this.ctx.fillRect(this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
-        // this.ctx.drawImage(this.playerInstance, this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
     }
+
     move() {
-        if (this.playerPosition.y < this.playerPositionJump) {
-            this.playerPosition.y += this.velocity;
-            this.velocity += this.gravity;
-        } else {
-            this.velocity = 1;
+        if (this.playerPosition.y < this.floor) {
+            this.playerPosition.y += this.velocity
+            this.velocity += this.gravity
+        }
+
+        else {
+            this.playerPosition.y = this.floor
+            this.velocity = 1
+            this.canJump = true
+        }
+
+    }
+
+    jump() {
+        if (this.canJump) {
+            this.playerPosition.y -= 200
+            this.velocity -= 8
+            this.canJump = false
         }
     }
+
+
+
+
 
     setListeners() {
         document.addEventListener("keydown", e => {
             switch (e.code) {
                 case this.keys.TOP:
-
                     this.jump()
-
                     break
             }
         })
     }
-
-    jump() {
-        this.playerPosition.y -= 100;
-        this.velocity -= 8;
-    }
-
-
 }
+
+
+
+
+
+
 

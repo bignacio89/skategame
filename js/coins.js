@@ -2,8 +2,8 @@ class Coins {
     constructor(ctx, gameWidth, positionY) {
         this.ctx = ctx
         this.coinSize = 30
-        // this.image = new Image;
-        // this.image.src = "./img/trashcan.png";
+        this.image = new Image;
+        this.image.src = "./img/coin.png";
 
         this.coinPosition = {
             x: gameWidth,
@@ -15,9 +15,9 @@ class Coins {
 
     drawCoin() {
         this.move()
-        // this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.heigth)
-        this.ctx.fillStyle = "yellow"
-        this.ctx.fillRect(this.coinPosition.x, this.coinPosition.y, this.coinSize, this.coinSize)
+        this.ctx.drawImage(this.image, this.coinPosition.x, this.coinPosition.y, this.coinSize, this.coinSize)
+        // this.ctx.fillStyle = "yellow"
+        // this.ctx.fillRect(this.coinPosition.x, this.coinPosition.y, this.coinSize, this.coinSize)
     }
 
     move() {

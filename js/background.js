@@ -1,10 +1,7 @@
 class Background {
-    constructor(ctx, canvasWidth, canvasHeight) {
+    constructor(ctx, canvasSize) {
         this.ctx = ctx
-        this.canvasSize = {
-            w: canvasWidth,
-            h: canvasHeight
-        }
+        this.canvasSize = canvasSize
 
         this.image = new Image()
         this.image.src = "./img/city.png"

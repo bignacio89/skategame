@@ -1,24 +1,25 @@
 class Obstacle {
-    constructor(ctx, gameWidth) {
+    constructor(ctx, canvasSize) {
         this.ctx = ctx
-        this.width = 50
-        this.heigth = 60
-        // this.image = new Image;
-        // this.image.src = "./img/trashcan.png";
+        this.width = 58
+        this.heigth = 72
+        this.canvasSize = canvasSize
+        this.image = new Image;
+        this.image.src = "./img/trashcan.png";
 
         this.obstaclesPosition = {
-            x: gameWidth,
-            y: 600
+            x: this.canvasSize.w,
+            y: this.canvasSize.h - this.heigth
         }
 
-        this.velocity = 10
+        this.velocity = 6
     }
 
     drawImage() {
         this.move()
-        // this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.heigth)
-        this.ctx.fillStyle = "green"
-        this.ctx.fillRect(this.obstaclesPosition.x, this.obstaclesPosition.y, this.width, this.heigth)
+        this.ctx.drawImage(this.image, this.obstaclesPosition.x, this.obstaclesPosition.y, this.width, this.heigth)
+        // this.ctx.fillStyle = "green"
+        // this.ctx.fillRect(this.obstaclesPosition.x, this.obstaclesPosition.y, this.width, this.heigth)
     }
 
     move() {

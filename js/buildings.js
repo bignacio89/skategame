@@ -1,17 +1,19 @@
 class Building {
-    constructor(ctx, gameWidth, width, height) {
+    constructor(ctx, canvasSize, width, height) {
         this.ctx = ctx
         this.width = width
         this.heigth = height
+        this.canvasSize = canvasSize
+
         // this.image = new Image;
         // this.image.src = "./img/trashcan.png";
 
         this.buildingPosition = {
-            x: gameWidth,
-            y: 550
+            x: this.canvasSize.w,
+            y: this.canvasSize.h - 120
         }
 
-        this.velocity = 10
+        this.velocity = 6
     }
 
     drawBuilding() {

@@ -10,8 +10,8 @@ class Player {
         }
 
         this.playerPosition = {
-            x: 50,
-            y: 600
+            x: 400,
+            y: 600 + 10
         }
         this.playerPositionJump = this.playerPosition.y
         this.velocity = 1
@@ -31,14 +31,15 @@ class Player {
 
     drawSkater() {
         this.move()
-        this.ctx.drawImage(this.playerInstance, this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
+        this.ctx.fillStyle = "red"
+        this.ctx.fillRect(this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
+        // this.ctx.drawImage(this.playerInstance, this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
     }
     move() {
         if (this.playerPosition.y < this.playerPositionJump) {
             this.playerPosition.y += this.velocity;
             this.velocity += this.gravity;
         } else {
-            this.playerPosition.y = this.playerPositionJump;
             this.velocity = 1;
         }
     }
@@ -47,9 +48,9 @@ class Player {
         document.addEventListener("keydown", e => {
             switch (e.code) {
                 case this.keys.TOP:
-                    if (this.playerPosition.y >= this.playerPositionJump) {
-                        this.jump()
-                    }
+
+                    this.jump()
+
                     break
             }
         })

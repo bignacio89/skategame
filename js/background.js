@@ -6,13 +6,13 @@ class Background {
             h: canvasHeight
         }
 
-        this.image = new Image();
+        this.image = new Image()
         this.image.src = "./img/city.png"
 
         this.positionX = 0
         this.positionY = 0
 
-        this.velocity = 2;
+        this.velocity = 2
     }
 
     drawBackground() {

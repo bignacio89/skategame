@@ -16,8 +16,6 @@ class Coins {
     drawCoin() {
         this.move()
         this.ctx.drawImage(this.image, this.coinPosition.x, this.coinPosition.y, this.coinSize, this.coinSize)
-        // this.ctx.fillStyle = "yellow"
-        // this.ctx.fillRect(this.coinPosition.x, this.coinPosition.y, this.coinSize, this.coinSize)
     }
 
     move() {

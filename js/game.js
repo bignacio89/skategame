@@ -12,7 +12,8 @@ const skateGame = {
     obstacles: [],
     buildings: [],
     keys: {
-        TOP: 'Space',
+        TOP: 'ArrowUp',
+        PAINT: 'Space'
     },
     framesCounter: 0,
     framesIndex: 0,
@@ -96,6 +97,7 @@ const skateGame = {
         this.buildings.forEach(place => place.drawBuilding())
         this.coins.forEach(coin => coin.drawCoin())
         this.player.drawSkater()
+        this.drawCollectedCoins()
         // this.coinBoard.drawBoard()
     },
 
@@ -157,29 +159,17 @@ const skateGame = {
         })
     },
 
-
     checkCollisionCoin() {
         for (let i = 0; i < this.coins.length; i++) {
-
             if (this.player.playerPosition.x + this.player.playerSize.w >= this.coins[i].coinPosition.x &&
+                this.player.playerPosition.x <= this.coins[i].coinPosition.x + this.coins[i].coinSize &&
                 this.player.playerPosition.y + this.player.playerSize.h >= this.coins[i].coinPosition.y &&
-                this.player.playerPosition.x <= this.coins[i].coinPosition.x + this.coins[i].coinSize) {
+                this.player.playerPosition.y <= this.coins[i].coinPosition.y + this.coins[i].coinSize) {
                 this.collectedCoins++;
-                this.coins.splice(i, 1)
+                this.coins.splice(i, 1);
             }
         }
 
-
-
-
-        //     let conditionX = Math.abs(this.player.playerPosition.x - this.coins[i].coinPosition.x - 30 / 2);
-        //     let conditionY = Math.abs(this.player.playerPosition.y - this.coins[i].coinPosition.y - 30 / 2);
-        //     if (conditionX < this.player.playerSize.w / 2 + 30 / 2 && conditionY < this.player.playerSize.h / 2 + 30 / 2) {
-        //         this.collectedCoins++;
-        //         this.coins.splice(i, 1);
-
-        //     }
-        // }
     },
 
 
@@ -202,34 +192,11 @@ const skateGame = {
     },
 
 
-
-
-    //     {
-    // this.buildings.forEach((elem) => {
-
-    //         if (
-    //             this.player.playerPosition.x < elem.buildingPosition.x + elem.width &&
-    //             this.player.playerPosition.x + this.player.playerSize.w > elem.buildingPosition.x &&
-
-    //             this.player.playerPosition.y < elem.buildingPosition.y + elem.height &&
-    //             this.player.playerSize.h + this.player.playerPos.y > elem.buildingPosition.y
-    //         ) {
-    //             console.log("HAY choque")
-
-    //             // this.player.playerPosition.y = elem.buildingPosition.y - this.player.play 
-    //             this.player.velocity = 0
-    //             this.player.canJump = true
-
-
-    //         }
-    //     })
-
-
-
-
-    // },
-
-
+    drawCollectedCoins() {
+        this.ctx.fillStyle = '#794d1d'
+        this.ctx.font = '30px "Comic Sans MS"'
+        this.ctx.fillText(this.collectedCoins, this.canvasSize.w - 60, 35)
+    },
 
 
 

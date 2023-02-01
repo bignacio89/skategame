@@ -16,6 +16,7 @@ class Player {
         this.gravity = 0.4
         this.canJump = true
         this.floor = this.canvasSize.h - this.playerSize.h
+        this.graffitis = []
 
 
         this.keys = keys
@@ -26,7 +27,9 @@ class Player {
 
     drawSkater() {
         this.move()
-        this.ctx.fillStyle = "red"
+        this.graffitis.forEach(paint => paint.drawGraffiti())
+        this.clearGraffiti()
+        this.ctx.fillStyle = "black"
         this.ctx.fillRect(this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
     }
 
@@ -46,7 +49,7 @@ class Player {
 
     jump() {
         if (this.canJump) {
-            this.playerPosition.y -= 200
+            this.playerPosition.y -= 100
             this.velocity -= 8
             this.canJump = false
         }
@@ -62,8 +65,19 @@ class Player {
                 case this.keys.TOP:
                     this.jump()
                     break
+                case this.keys.PAINT:
+                    this.paintGraffiti()
+                    console.log(this.graffitis)
+                    break
             }
         })
+    }
+
+    paintGraffiti() {
+        this.graffitis.push(new Graffiti(this.ctx, this.canvasSize, this.playerPosition, this.playerSize))
+    }
+    clearGraffiti() {
+        this.graffitis = this.graffitis.filter(graffiti => graffiti.graffitiPosition.x + graffiti.graffitiSize.w >= 0)
     }
 }
 

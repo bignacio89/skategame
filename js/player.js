@@ -1,13 +1,13 @@
 class Player {
-    constructor(ctx, canvasSize, playerWidth, playerHeight, keys) {
+    constructor(ctx, canvasSize, playerWidth, playerHeight, keys, canCounter) {
 
         this.ctx = ctx
         this.canvasSize = canvasSize
+        this.canCounter = canCounter
         this.playerSize = {
             w: playerWidth,
             h: playerHeight
         }
-
         this.playerPosition = {
             x: 400,
             y: this.canvasSize.h
@@ -18,19 +18,48 @@ class Player {
         this.floor = this.canvasSize.h - this.playerSize.h
         this.graffitis = []
 
+        this.image = new Image()
+        this.image.src = "./img/bartcopia.png"
+        this.image.frames = 5
+        this.image.framesIndex = 0
+
+
 
         this.keys = keys
+
 
         this.setListeners()
     }
 
 
-    drawSkater() {
+    drawSkater(framesCounter) {
+
+        this.ctx.drawImage(
+            this.image,
+            this.image.width / this.image.frames * this.image.framesIndex,
+            0,
+            this.image.width / this.image.frames,
+            this.image.height,
+            this.playerPosition.x,
+            this.playerPosition.y,
+            this.playerSize.w,
+            this.playerSize.h
+        )
+
+        this.animate(framesCounter)
+
         this.move()
-        this.graffitis.forEach(paint => paint.drawGraffiti())
-        this.clearGraffiti()
-        this.ctx.fillStyle = "black"
-        this.ctx.fillRect(this.playerPosition.x, this.playerPosition.y, this.playerSize.w, this.playerSize.h)
+
+    }
+
+    animate(framesCounter) {
+        if (framesCounter % 4 == 0) {
+            this.image.framesIndex++
+        }
+
+        if (this.image.framesIndex >= this.image.frames) {
+            this.image.framesIndex = 0
+        }
     }
 
     move() {
@@ -49,7 +78,7 @@ class Player {
 
     jump() {
         if (this.canJump) {
-            this.playerPosition.y -= 100
+            this.playerPosition.y -= 50
             this.velocity -= 8
             this.canJump = false
         }
@@ -66,8 +95,8 @@ class Player {
                     this.jump()
                     break
                 case this.keys.PAINT:
-                    this.paintGraffiti()
-                    console.log(this.graffitis)
+                    if (this.canCounter > 0) { this.paintGraffiti() }
+
                     break
             }
         })

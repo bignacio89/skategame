@@ -2,3 +2,43 @@
     margin: 0;
     padding: 0;
 }
+
+img {
+    width: 100%;
+}
+
+#game-board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+canvas {
+    border: 2px solid black;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+}
+
+#win-game {
+    display: none;
+    position: fixed;
+    width: 596px;
+    height: 337px;
+}
+
+#win-game img {
+    width: 496px;
+    height: 237px;
+}
+
+#game-over {
+    display: none;
+    position: fixed;
+    width: 481px;
+    height: 267px;
+}
+
+#game-over img {
+    width: 481px;
+    height: 267px;
+}

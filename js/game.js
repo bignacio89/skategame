@@ -11,6 +11,7 @@ const skateGame = {
     FPS: 60,
     obstacles: [],
     buildings: [],
+    platforms: [],
     keys: {
         TOP: 'ArrowUp',
         PAINT: 'Space'
@@ -22,15 +23,19 @@ const skateGame = {
     coins: [],
     collectedCoins: 0,
     currenteCoins: 0,
+    score: 0,
     coinBoard: undefined,
     crash: true,
     grounded: undefined,
-
+    backgroundTrack: new Audio("./audio/background.wav"),
+    canCounter: 0,
+    graffitiCans: [],
 
     init() {
         this.setContext()
         this.setDimensions()
         this.start()
+
 
     },
 
@@ -42,8 +47,8 @@ const skateGame = {
 
     setDimensions() {
         this.canvasSize = {
-            w: window.innerWidth,
-            h: window.innerHeight
+            w: 1000,
+            h: 600
         }
 
         this.canvasTag.setAttribute('width', this.canvasSize.w)
@@ -68,14 +73,21 @@ const skateGame = {
             this.generateBuilding()
             this.clearBuildings()
 
+            this.generatePlatform()
+            this.clearPlatform()
+
+            this.generateGraffitiCans()
+            this.clearGraffitiCans()
+
             this.checkCollisionCoin()
-
+            this.checkCollisionGraffitiCan()
             this.checkCollisionBuildings()
+            this.checkCollisionPlatforms()
+            this.player.canCounter = this.canCounter
 
-            console.log(this.collectedCoins)
-            console.log(this.framesCounter)
 
             this.hasCrashed() && this.gameOver()
+            this.winGame()
 
 
         }, 1000 / this.FPS)
@@ -87,7 +99,9 @@ const skateGame = {
         this.obstacles = []
         this.coins = []
         this.buildings = []
-        // this.coinBoard = new Board(this.ctx, this.collectedCoins, this.canvasSize.w)
+        this.graffitiCans = []
+        this.platforms = []
+
 
     },
 
@@ -96,9 +110,12 @@ const skateGame = {
         this.obstacles.forEach(obs => obs.drawImage())
         this.buildings.forEach(place => place.drawBuilding())
         this.coins.forEach(coin => coin.drawCoin())
-        this.player.drawSkater()
+        this.platforms.forEach(plat => plat.drawPlatform())
+        this.player.drawSkater(this.framesCounter)
+        this.graffitiCans.forEach(can => can.drawGraffitiCan())
         this.drawCollectedCoins()
-        // this.coinBoard.drawBoard()
+        this.drawScore()
+
     },
 
     clearAll() {
@@ -108,8 +125,8 @@ const skateGame = {
     generateCoins() {
 
         if (this.framesCounter % 40 === 0) {
-            const coinMaxY = this.canvasSize.h - 70
-            const coinMinY = 400
+            const coinMaxY = this.canvasSize.h - 20
+            const coinMinY = this.canvasSize.h - 80
 
             let positionCoinY = Math.floor(Math.random() * (coinMaxY - coinMinY + 1)) + coinMinY;
             this.coins.push(new Coins(this.ctx, this.canvasSize.w, positionCoinY))
@@ -119,7 +136,7 @@ const skateGame = {
     },
 
     generateObstacles() {
-        if (this.framesCounter % 100 === 0) {
+        if (this.framesCounter % 60 === 0) {
             this.obstacles.push(
                 new Obstacle(this.ctx, this.canvasSize)
             )
@@ -128,12 +145,50 @@ const skateGame = {
     },
 
     generateBuilding() {
-        if (this.framesCounter % 100 === 0) {
+        if (this.framesCounter === 300) {
             this.buildings.push(
-                new Building(this.ctx, this.canvasSize, 400, 30)
+                new Building(this.ctx, this.canvasSize, 1, 430, 160)
             )
+        }
+
+        if (this.framesCounter === 50) {
+            this.buildings.push(
+                new Building(this.ctx, this.canvasSize, 2, 118, 61)
+            )
+        }
+
+
+    },
+
+    generatePlatform() {
+        if (this.framesCounter % 100 === 0) {
+            this.platforms.push(
+                new Platform(this.ctx, this.canvasSize, 0, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 50, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 100, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 150, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 200, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 250, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 300, 50, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 150, 100, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 200, 100, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 250, 100, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 300, 100, 1, 50, 50),
+                new Platform(this.ctx, this.canvasSize, 350, 50, 1, 50, 50),)
+
 
         }
+    },
+
+    generateGraffitiCans() {
+        if (this.framesCounter % 50 === 0) {
+
+            this.graffitiCans.push(new GraffitiCan(this.ctx, this.canvasSize))
+        }
+    },
+
+    clearPlatform() {
+        this.platforms = this.platforms.filter(plat => plat.platformPosition.x + plat.width >= 0)
     },
 
     clearCoins() {
@@ -146,6 +201,10 @@ const skateGame = {
 
     clearBuildings() {
         this.buildings = this.buildings.filter(hero => hero.buildingPosition.x + hero.width >= 0)
+    },
+
+    clearGraffitiCans() {
+        this.graffitiCans = this.graffitiCans.filter(graffitiCan => graffitiCan.graffitiCanPosition.x >= 0)
     },
 
     hasCrashed() {
@@ -166,9 +225,30 @@ const skateGame = {
                 this.player.playerPosition.y + this.player.playerSize.h >= this.coins[i].coinPosition.y &&
                 this.player.playerPosition.y <= this.coins[i].coinPosition.y + this.coins[i].coinSize) {
                 this.collectedCoins++;
+                this.score += 5
                 this.coins.splice(i, 1);
             }
         }
+
+    },
+
+    checkCollisionPlatforms() {
+
+        const crashedP = this.platforms.some(plat => {
+            return (
+
+                this.player.playerPosition.y + this.player.playerSize.h + this.player.velocity >= plat.platformPosition.y &&
+                this.player.playerPosition.x + this.player.playerSize.w >= plat.platformPosition.x &&
+                this.player.playerPosition.x <= plat.platformPosition.x + plat.width
+
+            )
+        })
+        if (crashedP) {
+            this.player.velocity = 0
+            this.player.canJump = true
+            this.score += 10
+        }
+
 
     },
 
@@ -191,11 +271,40 @@ const skateGame = {
         }
     },
 
+    checkCollisionGraffitiCan() {
+        for (let i = 0; i < this.graffitiCans.length; i++) {
+            if (this.player.playerPosition.x + this.player.playerSize.w >= this.graffitiCans[i].graffitiCanPosition.x &&
+                this.player.playerPosition.x <= this.graffitiCans[i].graffitiCanPosition.x + this.graffitiCans[i].graffitiCanSize.w &&
+                this.player.playerPosition.y + this.player.playerSize.h >= this.graffitiCans[i].graffitiCanPosition.y &&
+                this.player.playerPosition.y <= this.graffitiCans[i].graffitiCanPosition.y + this.graffitiCans[i].graffitiCanSize.h) {
+                this.graffitiCans.splice(i, 1);
+                this.canCounter++;
+            }
+        }
+    },
+
+
+
 
     drawCollectedCoins() {
-        this.ctx.fillStyle = '#794d1d'
-        this.ctx.font = '30px "Comic Sans MS"'
-        this.ctx.fillText(this.collectedCoins, this.canvasSize.w - 60, 35)
+        this.ctx.fillStyle = 'black'
+        this.ctx.font = '30px "Roboto"'
+        this.ctx.fillText(`Coins: ${this.collectedCoins}`, this.canvasSize.w - 200, 50)
+    },
+
+    drawScore() {
+        this.ctx.fillStyle = 'black'
+        this.ctx.font = '30px "Roboto"'
+        this.ctx.fillText(`Score: ${this.score}`, this.canvasSize.w - 400, 50)
+    },
+
+    winGame() {
+        if (this.framesCounter == 1000) {
+            clearInterval(1)
+            document.querySelector('#win-game').style.display = 'block'
+            this.backgroundTrack.pause()
+
+        }
     },
 
 
@@ -203,7 +312,9 @@ const skateGame = {
 
 
     gameOver() {
-        clearInterval(this.interval)
+        clearInterval(1)
+        document.querySelector('#game-over').style.display = 'block'
+        this.backgroundTrack.pause()
     },
 
 }

@@ -4,8 +4,7 @@ class Obstacle {
         this.width = 58
         this.heigth = 72
         this.canvasSize = canvasSize
-        this.image = new Image;
-        this.image.src = "./img/trashcan.png";
+
 
         this.obstaclesPosition = {
             x: this.canvasSize.w,
@@ -17,9 +16,10 @@ class Obstacle {
 
     drawImage() {
         this.move()
+        this.image = new Image;
+        this.image.src = "./img/trashcan.png"
         this.ctx.drawImage(this.image, this.obstaclesPosition.x, this.obstaclesPosition.y, this.width, this.heigth)
-        // this.ctx.fillStyle = "green"
-        // this.ctx.fillRect(this.obstaclesPosition.x, this.obstaclesPosition.y, this.width, this.heigth)
+
     }
 
     move() {

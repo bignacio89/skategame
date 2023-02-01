@@ -1,17 +1,31 @@
-class Platforms {
-    //     constructor(ctx, platformW, platformX) {
+class Platform {
+    constructor(ctx, canvasSize, plusX, plusY, type, width, height) {
+        this.ctx = ctx
+        this.width = width
+        this.heigth = height
+        this.canvasSize = canvasSize
+        this.image = new Image
+        this.image.src = "./img/box.png"
+        this.plusX = plusX
+        this.plusY = plusY
 
-    //         this.ctx = ctx;
+        this.type = type
+        this.platformPosition = {
+            x: this.canvasSize.w + plusX,
+            y: this.canvasSize.h - plusY
+        }
 
-    //     }
+        this.velocity = 4
+    }
 
-    //     drawPlatform() {
-    //     ctx.fillStyle = "#45597E";
-    //     ctx.fillRect(platforms[0].x, platforms[0].y, platforms[0].width, platforms[0].height);
-    //     ctx.fillRect(platforms[1].x, platforms[1].y, platforms[1].width, platforms[1].height);
+    drawPlatform() {
+        if (this.type = 1)
+            this.move()
+        this.ctx.drawImage(this.image, this.platformPosition.x, this.platformPosition.y, this.width, this.heigth)
 
-    // }
+    }
 
-
-
+    move() {
+        this.platformPosition.x -= this.velocity;
+    }
 }

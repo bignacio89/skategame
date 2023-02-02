@@ -1,15 +1,15 @@
 class Player {
-    constructor(ctx, canvasSize, playerWidth, playerHeight, keys, canCounter) {
+    constructor(ctx, canvasSize, playerWidth, playerHeight, keys) {
 
         this.ctx = ctx
         this.canvasSize = canvasSize
-        this.canCounter = canCounter
+        this.canCounter = 0
         this.playerSize = {
             w: playerWidth,
             h: playerHeight
         }
         this.playerPosition = {
-            x: 400,
+            x: 300,
             y: this.canvasSize.h
         }
         this.velocity = 0
@@ -80,7 +80,7 @@ class Player {
 
     jump() {
         if (this.canJump) {
-            this.playerPosition.y -= 70
+            this.playerPosition.y -= 100
             this.velocity -= 8
             this.canJump = false
         }
@@ -107,6 +107,9 @@ class Player {
     paintGraffiti() {
         this.graffitis.push(new Graffiti(this.ctx, this.canvasSize, this.playerPosition, this.playerSize))
         this.graffitisCounter++
+        if (this.graffitisCounter % 2 === 0) {
+            this.canCounter--
+        }
     }
     clearGraffiti() {
         this.graffitis = this.graffitis.filter(graffiti => graffiti.graffitiPosition.x + graffiti.graffitiSize.w >= 0)

@@ -3,8 +3,8 @@ class Graffiti {
         this.ctx = ctx
         this.canvasSize = canvasSize
         this.graffitiSize = {
-            w: 50,
-            h: 50
+            w: 150,
+            h: 150
         }
         this.graffitiPosition = {
             x: playerPosition.x + 100,
@@ -12,12 +12,15 @@ class Graffiti {
         }
     }
     drawGraffiti() {
-        this.ctx.fillStyle = "red"
-        this.ctx.fillRect(this.graffitiPosition.x, this.graffitiPosition.y, this.graffitiSize.w, this.graffitiSize.h)
+        this.image = new Image
+        this.image.src = "./img/pngegg.png"
+        this.ctx.drawImage(this.image, this.graffitiPosition.x, this.graffitiPosition.y, this.graffitiSize.w, this.graffitiSize.h)
+
+
         this.move()
     }
     move() {
-        this.graffitiPosition.x -= 2
+        this.graffitiPosition.x -= 5
     }
 }
 

@@ -1,7 +1,7 @@
 class Coins {
     constructor(ctx, gameWidth, positionY) {
         this.ctx = ctx
-        this.coinSize = 20
+        this.coinSize = 30
         this.image = new Image;
         this.image.src = "./img/coin.png";
 
@@ -10,7 +10,7 @@ class Coins {
             y: positionY
         }
 
-        this.velocity = 4
+        this.velocity = 5
     }
 
     drawCoin() {

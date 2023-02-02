@@ -1,4 +1,4 @@
-class Building {
+class BuildingGraffiti {
     constructor(ctx, canvasSize, type, width, height) {
         this.ctx = ctx
         this.width = width
@@ -15,11 +15,11 @@ class Building {
         this.velocity = 5
     }
 
-    drawBuilding() {
+    drawBuildingGraffiti() {
         if (this.type == 1) {
             this.move()
             this.image = new Image
-            this.image.src = "./img/bus1.png"
+            this.image.src = "./img/police.png"
             this.ctx.drawImage(this.image, this.buildingPosition.x, this.buildingPosition.y, this.width, this.heigth)
 
         }
@@ -27,20 +27,10 @@ class Building {
         if (this.type == 2) {
             this.move()
             this.image = new Image
-            this.image.src = "./img/bench.png"
+            this.image.src = "./img/govern.png"
             this.ctx.drawImage(this.image, this.buildingPosition.x, this.buildingPosition.y, this.width, this.heigth)
 
         }
-
-        if (this.type == 3) {
-            this.move()
-            this.image = new Image
-            this.image.src = "./img/finish.png"
-            this.ctx.drawImage(this.image, this.buildingPosition.x, this.buildingPosition.y, this.width, this.heigth)
-
-        }
-
-
     }
 
 

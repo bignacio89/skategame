@@ -1,8 +1,8 @@
 class Obstacle {
     constructor(ctx, canvasSize) {
         this.ctx = ctx
-        this.width = 58
-        this.heigth = 72
+        this.width = 50
+        this.heigth = 62
         this.canvasSize = canvasSize
 
 
@@ -11,7 +11,7 @@ class Obstacle {
             y: this.canvasSize.h - this.heigth
         }
 
-        this.velocity = 6
+        this.velocity = 5
     }
 
     drawImage() {

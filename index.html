@@ -12,19 +12,25 @@
 </head>
 
 <body>
-    <div id="game-board" class="col">
-
-        <div id="win-game">
-            <img src="./img/win.png" alt="win background">
-
+    <div class="container">
+        <div id="start-intro" class="screen">
+            <img src="./img/graffitiSkater.png" alt="" class="start-img" />
+            <br />
+            <button id="start-button">StartGame</button>
+            <p>Use the UP arrow and space bar to play!</p>
+            <img src="./img/JUMP.png" alt="" class="arrows-img" />
         </div>
 
-        <div id="game-over">
-            <img src="./img/gameover.png" alt="game over">
-        </div>
-
-        <canvas></canvas>
     </div>
+
+
+
+
+
+    <canvas id="canvas" class="display-none"></canvas>
+
+
+
 
 
 
@@ -34,6 +40,8 @@
     <script src="./js/graffitiCan.js"></script>
     <script src="./js/graffiti.js"></script>
     <script src="./js/buildings.js"></script>
+    <script src="./js/buildingGraffiti.js"></script>
+    <script src="./js/zombies.js"></script>
     <script src="./js/platforms.js"></script>
     <script src="./js/player.js"></script>
 

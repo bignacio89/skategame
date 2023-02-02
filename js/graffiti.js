@@ -1,24 +1,23 @@
-class GraffitiCan {
-    constructor(ctx, canvasSize) {
+class Graffiti {
+    constructor(ctx, canvasSize, playerPosition, playerSize) {
         this.ctx = ctx
         this.canvasSize = canvasSize
-        this.graffitiCanSize = {
-            w: 25,
-            h: 25
+        this.graffitiSize = {
+            w: 50,
+            h: 50
         }
-        this.graffitiCanPosition = {
-            x: this.canvasSize.w,
-            y: this.canvasSize.h - 20
+        this.graffitiPosition = {
+            x: playerPosition.x + 100,
+            y: playerPosition.y - 100
         }
     }
-    drawGraffitiCan() {
-
-        this.ctx.fillStyle = "Black"
-        this.ctx.fillRect(this.graffitiCanPosition.x, this.graffitiCanPosition.y, this.graffitiCanSize.w, this.graffitiCanSize.h)
+    drawGraffiti() {
+        this.ctx.fillStyle = "red"
+        this.ctx.fillRect(this.graffitiPosition.x, this.graffitiPosition.y, this.graffitiSize.w, this.graffitiSize.h)
         this.move()
     }
     move() {
-        this.graffitiCanPosition.x -= 6
+        this.graffitiPosition.x -= 2
     }
 }
 

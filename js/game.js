@@ -18,7 +18,7 @@ const skateGame = {
     },
     framesCounter: 0,
     framesIndex: 0,
-    background: undefined,
+    background: [],
     player: undefined,
     coins: [],
     collectedCoins: 0,
@@ -30,6 +30,8 @@ const skateGame = {
     backgroundTrack: new Audio("./audio/background.wav"),
     canCounter: 0,
     graffitiCans: [],
+    canCounter: 0,
+
 
     init() {
         this.setContext()
@@ -47,8 +49,8 @@ const skateGame = {
 
     setDimensions() {
         this.canvasSize = {
-            w: 1000,
-            h: 600
+            w: 1161,
+            h: 653
         }
 
         this.canvasTag.setAttribute('width', this.canvasSize.w)
@@ -95,7 +97,7 @@ const skateGame = {
 
     reset() {
         this.background = new Background(this.ctx, this.canvasSize)
-        this.player = new Player(this.ctx, this.canvasSize, 50, 50, this.keys)
+        this.player = new Player(this.ctx, this.canvasSize, 70, 70, this.keys)
         this.obstacles = []
         this.coins = []
         this.buildings = []
@@ -107,6 +109,7 @@ const skateGame = {
 
     drawAll() {
         this.background.drawBackground()
+        this.background.drawRoad()
         this.obstacles.forEach(obs => obs.drawImage())
         this.buildings.forEach(place => place.drawBuilding())
         this.coins.forEach(coin => coin.drawCoin())
@@ -136,7 +139,7 @@ const skateGame = {
     },
 
     generateObstacles() {
-        if (this.framesCounter % 60 === 0) {
+        if (this.framesCounter % 200 === 0) {
             this.obstacles.push(
                 new Obstacle(this.ctx, this.canvasSize)
             )
@@ -183,7 +186,8 @@ const skateGame = {
     generateGraffitiCans() {
         if (this.framesCounter % 50 === 0) {
 
-            this.graffitiCans.push(new GraffitiCan(this.ctx, this.canvasSize))
+            this.graffitiCans.push(
+                new GraffitiCan(this.ctx, this.canvasSize))
         }
     },
 

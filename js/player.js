@@ -17,6 +17,7 @@ class Player {
         this.canJump = true
         this.floor = this.canvasSize.h - this.playerSize.h
         this.graffitis = []
+        this.graffitisCounter = 0
 
         this.image = new Image()
         this.image.src = "./img/bartcopia.png"
@@ -49,6 +50,7 @@ class Player {
         this.animate(framesCounter)
 
         this.move()
+        this.graffitis.forEach(paint => paint.drawGraffiti())
 
     }
 
@@ -78,7 +80,7 @@ class Player {
 
     jump() {
         if (this.canJump) {
-            this.playerPosition.y -= 50
+            this.playerPosition.y -= 70
             this.velocity -= 8
             this.canJump = false
         }
@@ -104,6 +106,7 @@ class Player {
 
     paintGraffiti() {
         this.graffitis.push(new Graffiti(this.ctx, this.canvasSize, this.playerPosition, this.playerSize))
+        this.graffitisCounter++
     }
     clearGraffiti() {
         this.graffitis = this.graffitis.filter(graffiti => graffiti.graffitiPosition.x + graffiti.graffitiSize.w >= 0)
